@@ -1,0 +1,12 @@
+# Core dependencies for DICOM service microservice
+# =========================================
+
+# FastAPI - Modern, fast web framework for building APIs with Python
+fastapi>=0.115.12
+uvicorn
+sqlmodel
+pydicom>=3.0.1
+Pillow
+python-multipart
+pytest
+numpy
