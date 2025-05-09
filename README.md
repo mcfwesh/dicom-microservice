@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ## Running the Service
 
 ```bash
-uvicorn src.main:app --reload
+uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 The service will be available at http://localhost:8000
