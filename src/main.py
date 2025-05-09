@@ -2,14 +2,12 @@ import os
 import uuid
 import json
 from pathlib import Path
-from typing import Dict, Union
+from typing import Dict
 import random
 
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
-from fastapi.responses import JSONResponse, StreamingResponse
 import pydicom
-from pydicom.tag import Tag
 
 from src.utils import (
     is_valid_dicom_file,

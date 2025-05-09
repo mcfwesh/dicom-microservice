@@ -6,7 +6,7 @@ from typing import Tuple, Dict, Any
 import pydicom
 from pydicom import FileDataset
 from pydicom.errors import InvalidDicomError
-from fastapi import File, HTTPException, Query
+from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 from pydicom.tag import Tag
 import numpy as np
