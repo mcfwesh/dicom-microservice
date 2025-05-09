@@ -59,7 +59,6 @@ async def health() -> Dict[str, str]:
                             "tag": "0002,0000",
                             "keyword": "FileMetaInformationGroupLength",
                             "vr": "UL",
-                            "value": "CT",
                         },
                     }
                 },
@@ -150,7 +149,6 @@ async def process_dicom(
                             "tag": "0002,0000",
                             "keyword": "FileMetaInformationGroupLength",
                             "vr": "UL",
-                            "value": "CT",
                         },
                     }
                 },
