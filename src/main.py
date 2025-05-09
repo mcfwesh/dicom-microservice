@@ -2,11 +2,12 @@ import os
 import uuid
 import json
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Union
 import random
 
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Query
+from fastapi.responses import JSONResponse, StreamingResponse
 import pydicom
 from pydicom.tag import Tag
 
@@ -42,7 +43,33 @@ async def health() -> Dict[str, str]:
     return {"status": "OK"}
 
 
-@app.post("/dicom/upload")
+@app.post(
+    "/dicom/upload",
+    response_model=None,
+    responses={
+        200: {
+            "description": "Returns either PNG image or JSON with tag data",
+            "content": {
+                "image/png": {},
+                "application/json": {
+                    "example": {
+                        "file_id": "uuid-string",
+                        "success": True,
+                        "tag_data": {
+                            "tag": "0002,0000",
+                            "keyword": "FileMetaInformationGroupLength",
+                            "vr": "UL",
+                            "value": "CT",
+                        },
+                    }
+                },
+            },
+        },
+        400: {"description": "Invalid DICOM file or tag format"},
+        404: {"description": "Tag not found in DICOM file"},
+        500: {"description": "Server error during processing"},
+    },
+)
 async def process_dicom(
     file: UploadFile = File(..., description="DICOM file to process"),
     tag: str = Query(
@@ -107,7 +134,32 @@ async def process_dicom(
         )
 
 
-@app.post("/random_file")
+@app.post(
+    "/random_file",
+    response_model=None,
+    responses={
+        200: {
+            "description": "Returns either PNG image or JSON with tag data",
+            "content": {
+                "image/png": {},
+                "application/json": {
+                    "example": {
+                        "file_id": "uuid-string",
+                        "success": True,
+                        "tag_data": {
+                            "tag": "0002,0000",
+                            "keyword": "FileMetaInformationGroupLength",
+                            "vr": "UL",
+                            "value": "CT",
+                        },
+                    }
+                },
+            },
+        },
+        404: {"description": "No DICOM files found or tag not found"},
+        500: {"description": "Server error during processing"},
+    },
+)
 async def process_existing_file(
     tag: str = Query(
         ...,
